@@ -1,0 +1,26 @@
+
+from hellopy import *
+window.set_size(600,500)
+window.set_title("公交车")
+
+body = Rectangle(300,200,400,200,"red")
+glass1 = Rectangle(150,170,100,100,"white")
+glass2 = Rectangle(260,160,80,80,"white")
+glass3 = Rectangle(360,160,80,80,"white")
+glass4 = Rectangle(460,160,80,80,"white")
+c1 = Circle(190, 300, 60, "black")
+c2 = Circle(190, 300, 50, "grey")
+c3 = Circle(410, 300, 60, "black")
+c4 = Circle(410, 300, 50, "grey")
+def Loop():
+    window.clear()
+    body.draw()
+    glass1.draw()
+    glass2.draw()
+    glass3.draw()
+    glass4.draw()
+    c1.draw()
+    c2.draw()
+    c3.draw()
+    c4.draw()
+run(Loop)
