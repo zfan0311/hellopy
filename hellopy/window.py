@@ -54,6 +54,10 @@ class Window():
     # 清空屏幕
     def clear(self):
         self.screen.fill("black")
+
+    # 设置窗口背景颜色
+    def bg_color(self, color):
+        self.screen.fill(color)
     
     # 显示静态窗口
     def show(self,delay_time=0):

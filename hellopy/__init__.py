@@ -40,5 +40,5 @@ from hellopy.events import *
 from hellopy.key import *
 from hellopy.sound import *
 from hellopy.collision import *
-from hellopy.demo import *
+from hellopy.onlydemos import *
 from hellopy.resource import *

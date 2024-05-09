@@ -1,6 +1,6 @@
 from hellopy import *
 import cv2, math
-from onlydemos.LoongPy import draw_hand, Loong,  player, RiceBall, cap, hands, bgm, sfx
+from onlyshow.LoongPy import draw_hand, Loong,  player, RiceBall, cap, hands, bgm, sfx
 
 # 设置窗口参数
 window.set_size(1200,800)
