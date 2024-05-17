@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='HelloPyOnly',  # 您的库的名称
-    version='0.1.24',  # 版本号
+    version='0.1.26',  # 版本号
     author='funk.zhang',  # 您的名字
     author_email='zhangfangid@126.com',  # 您的电子邮件地址
     description='This is the game engine of Only Hello Science project.',  # 您库的简短描述

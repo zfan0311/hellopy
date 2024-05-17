@@ -139,13 +139,13 @@ class VirtualFace():
     
     def rotate_to(self, angle, r_center=None):
         rc = r_center or (self.x, self.y)
-        self.face.rotate_to(angle, rc)
+        self.face.rotate_to(-angle, rc)
         if self.left_eye:
-            self.left_eye.rotate_to(angle, rc)
+            self.left_eye.rotate_to(-angle, rc)
         if self.right_eye:
-            self.right_eye.rotate_to(angle, rc)
+            self.right_eye.rotate_to(-angle, rc)
         if self.mouth:
-            self.mouth.rotate_to(angle, rc)
+            self.mouth.rotate_to(-angle, rc)
     
     def draw(self):
         self.face.draw()
