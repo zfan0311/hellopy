@@ -1,6 +1,6 @@
 import pygame
 from hellopy.gameobject.rectangle import Rectangle
-from hellopy.gameobject.gameobject import GameObject, rotate_point
+from hellopy.gameobject.gameobject import GameObject
 from hellopy.collision import CollisionComponent
 from hellopy.window import window
 from hellopy.resource import rss
@@ -21,19 +21,20 @@ class Sprite(GameObject, pygame.sprite.Sprite, CollisionComponent):
         self.img = pygame.image.load(rss.get(src))
         self._w = width or self.img.get_width()
         self._h = height or self.img.get_height()
+        self.img = pygame.transform.scale(self.img,(self.w,self.h))
         self._x = x
         self._y = y
         self._src = src
         self.mask =  pygame.mask.from_surface(self.img.convert_alpha())
         self.min_collision = 5
         self.is_moving = False
-        
         relPs = list(self.mask.outline(self.min_collision))
         points = [(p[0]+self.x-self.w/2,p[1]+self.y-self.h/2) for p in relPs]
         
         self.points = points
         
-        self.img = pygame.transform.scale(self.img,(self.w,self.h))
+        
+        
         super().__init__(self.get_rect())
         self.color = "blue"
         self.scale = 1
@@ -41,12 +42,6 @@ class Sprite(GameObject, pygame.sprite.Sprite, CollisionComponent):
         self.angle = 0
         self.show_rect= False
         self.show_outline = False
-
-        # self.mask =  pygame.mask.from_surface(self.img)
-        # self.mask = self.mask.to_surface()
-        # self.mask.fill((255, 255, 255, 0), None, pygame.BLEND_RGBA_MULT)
-        
-
 
     @property
     def x(self):
@@ -114,20 +109,13 @@ class Sprite(GameObject, pygame.sprite.Sprite, CollisionComponent):
             y_list.append(dot[1])
         return (min(x_list),min(y_list),max(x_list)-min(x_list),max(y_list)-min(y_list))
     def update_points(self):
-        # nps = []
-        # for p in self.points:
-        #     nps.append(rotate_point((self.x,self.y),p,self.angle))
-        # self.points = nps.copy()
         self.mask =  pygame.mask.from_surface(self.img.convert_alpha())
         relPs = list(self.mask.outline(self.min_collision))
-        # print(self.mask.get_size())
         points = [(p[0]+self.x-self.mask.get_size()[0]/2,p[1]+self.y-self.mask.get_size()[1]/2) for p in relPs]
         self.points = points
     def draw(self):
         if self.is_moving:
             self.update_points()
-        # window.screen.blit(self.img,(self.x-self.display_rect[2]/2,self.y-self.display_rect[3]/2))
-        
         window.screen.blit(self.img,(self.x-self.img.get_width()/2,self.y-self.img.get_height()/2))
         if self.show_rect or self.show_outline:
             pygame.draw.polygon(window.screen,self.color,self.points,self.line_width)
@@ -136,23 +124,10 @@ class Sprite(GameObject, pygame.sprite.Sprite, CollisionComponent):
         self.r_center = (self.x,self.y)
         if center != None:
             self.r_center = center    
-        
-
-        # nps = []
-        # for p in self.points:
-        #     nps.append(rotate_point(self.r_center,p,-angle))
-        # self.points = nps.copy()
         self.display_rect = self.get_rect()
         self.img = pygame.image.load(rss.get(self.src))
         self.img = pygame.transform.scale(self.img,(self.w,self.h))
         self.img = pygame.transform.rotate(self.img, -self.angle)
-        # fp = rotate_point(self.r_center,(self.x,self.y),angle)
-        # self.x = fp[0]
-        # self.y = fp[1]
-        # self.mask =  pygame.mask.from_surface(self.img.convert_alpha())
-        # relPs = list(self.mask.outline(10))
-        # points = [(p[0]+self.x-self.w/2,p[1]+self.y-self.h/2) for p in relPs]
-        # self.points = points
         if angle != 0:
             self.is_moving = True
         return self.points
@@ -162,34 +137,26 @@ class Sprite(GameObject, pygame.sprite.Sprite, CollisionComponent):
         self.r_center = (self.x,self.y)
         if center != None:
             self.r_center = center    
-        # nps = []
-        # for p in self.points:
-        #     nps.append(rotate_point(self.r_center,p,-a))
-        # self.points = nps.copy()
         self.display_rect = self.get_rect()
         self.img = pygame.image.load(rss.get(self.src))
         self.img = pygame.transform.scale(self.img,(self.w,self.h))
         self.img = pygame.transform.rotate(self.img, -self.angle)
-        # self.img = pygame.transform.translate(self.img,((self.x-self.img.get_width())/2,(self.y-self.img.get_height())/2))
-        # fp = rotate_point(self.r_center,(self.x,self.y),angle)
-        # self.x = fp[0]
-        # self.y = fp[1]
         if a != 0:
             self.is_moving = True
         return self.points
     def set_scale(self,scale):
         if self.scale == scale:
             return
-        self.is_moving = True
         sc = scale/self.scale
-        nps = []
-        for p in self.points:
-            rc = (self.x,self.y)
-            nps.append((rc[0]+(p[0]-rc[0])*sc,rc[1]+(p[1]-rc[1])*sc))
-        self.points = nps.copy()
+        # nps = []
+        # for p in self.points:
+        #     rc = (self.x,self.y)
+        #     nps.append((rc[0]+(p[0]-rc[0])*sc,rc[1]+(p[1]-rc[1])*sc))
+        # self.points = nps.copy()
         self.w = self.w * sc
         self.h = self.h * sc
         self.scale = scale
         self.img = pygame.image.load(self.src)
         self.img = pygame.transform.scale(self.img,(self.w,self.h))
         self.img = pygame.transform.rotate(self.img, self.angle)
+        self.is_moving = True

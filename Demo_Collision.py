@@ -4,7 +4,7 @@ window.set_size(600,600)
 window.set_title("鼠标点击物体测试")
 
 player = Sprite(300,300,100,100)
-player.set_scale(0.5)
+player.set_scale(1)
 circle = Circle(400,400,100,"red")
 rc = Rectangle(100,100,60,90,"yellow")
 pl = Polygon([(200,100),(200,200),(150,300)],"blue")
