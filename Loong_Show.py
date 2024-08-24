@@ -1,6 +1,6 @@
 from hellopy import *
 import cv2, random, os, pyautogui
-from onlydemos.LoongPy import draw_hand, Loong,  player, RiceBall, cap, hands, bgm, sfx
+from onlyshow.LoongPy import draw_hand, Loong,  player, RiceBall, cap, hands, bgm, sfx
 os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (0, 0)
 # 获取屏幕分辨率
 screen_width, screen_height = pyautogui.size()

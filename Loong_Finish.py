@@ -6,7 +6,7 @@ window.set_size(800, 600)
 # 制作：1. 添加角色；2. 交互的实现； 3.机制的实现。
 a = Loong()
 ball = Ball()
-
+a.head.show_outline = True
 def Loop():
     window.bg_color("lightblue")
     if a.collide(ball):
@@ -18,6 +18,7 @@ def Loop():
         a.length += 1
         a.score += 1
     a.head_to(mouse)
+    
     ball.draw()
     a.draw()
 
