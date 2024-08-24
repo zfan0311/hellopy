@@ -119,18 +119,6 @@ class CollisionComponent():
         if not (g1.points and g2.points):
             return False
 
-        # t1 = g1.transform
-        # t2 = g2.transform
-
-        
-
-        # t1.update_points(g1.points)
-        # t2.update_points(g2.points)
-
-        # # 更新外接矩形
-        # t1.update_collision_rect()
-        # t2.update_collision_rect()
-
         # simple collide rect
         r1 = g1.get_rect()
         r2 = g2.get_rect()
@@ -139,6 +127,10 @@ class CollisionComponent():
 
         return points_in_points(g1, g2) or points_in_points(g2, g1) or lines_cross(g1, g2)
 
+    def on_click(self):
+        if point_in_points((mouse.x,mouse.y),self) and mouse.left_click():
+            return True
+        return False
     # def on_press(self, f):
     #     """ 注册on_press函数，当图形被点击时，触发func函数 """
     #     self._press = f

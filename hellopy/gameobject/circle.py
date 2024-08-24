@@ -1,5 +1,6 @@
 import pygame
 from hellopy.gameobject.gameobject import GameObject, rotate_point
+from hellopy.collision import CollisionComponent
 from hellopy.window import window
 from math import sin, cos, pi, sqrt
 
@@ -8,13 +9,20 @@ def circle(x=100,y=100,radius=50,color="red"):
     pygame.draw.circle(window.screen,color,(x,y),radius)
 
 # 圆形类
-class Circle(GameObject):
+class Circle(GameObject, CollisionComponent):
     def __init__(self,x=100,y=100,radius=50,color="red"):  
         self.x = x
         self.y = y
         self.r = radius
         self.color = color
-        self.points = self.update_points()
+        """ 圆的近似图形：正多边形 """
+        n = 72
+        d = pi * 2 / n
+        x, y, r = self.x, self.y, self.r
+        nps = []
+        for i in range(n):
+            nps.append(((x + r * sin(d * i)), (y + r * cos(d * i))))
+        self.points = nps.copy()
         self.angle = 0
         self.scale = 1
         self.line_width = 1
