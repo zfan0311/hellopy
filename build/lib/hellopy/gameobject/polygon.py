@@ -35,14 +35,34 @@ class Polygon(GameObject,CollisionComponent):
         self.points = points
         super().__init__(self.get_rect())
         self.color = color
+        self.outline_color = "blue"
         self.scale = 1
         self.line_width = 1
         self.angle = 0
-        self.x = self.get_center()[0]
-        self.y = self.get_center()[1]
-        self.w = self.get_rect()[2]
-        self.h = self.get_rect()[3]
+        self._x = self.get_center()[0]
+        self._y = self.get_center()[1]
+        self._w = self.get_rect()[2]
+        self._h = self.get_rect()[3]
         self.v_from_center = self.get_vectors()
+        self.show_outline = False
+        self.is_moving = False
+    @property
+    def x(self):
+        return self._x
+    @x.setter
+    def x(self,x):
+        if self._x != x:
+            self._x = x
+            self.is_moving = True
+    @property
+    def y(self):
+        return self._y
+    @y.setter
+    def y(self,y):
+        if self._y != y:
+            self._y = y
+            self.is_moving = True
+
     def get_vectors(self):
         nps=[]
         for p in self.points:
@@ -56,8 +76,11 @@ class Polygon(GameObject,CollisionComponent):
             y_list.append(dot[1])
         return (min(x_list),min(y_list),max(x_list)-min(x_list),max(y_list)-min(y_list))
     def draw(self):
-        self.update_points()
+        if self.is_moving:
+            self.update_points()
         pygame.draw.polygon(window.screen,self.color,self.points)
+        if self.show_outline:
+            pygame.draw.polygon(window.screen,self.outline_color,self.points,self.line_width)
     def stroke(self):
         self.update_points()
         pygame.draw.polygon(window.screen,self.color,self.points,self.line_width)
@@ -101,4 +124,11 @@ class Polygon(GameObject,CollisionComponent):
         self.v_from_center = nps.copy()
         self.angle = angle % 360
     def set_scale(self,scale):
-        self.scale = scale
+        if self.scale == scale:
+            return
+
+        nps = []
+        for p in self.v_from_center:
+            nps.append((self.x+p[0]*self.scale,self.y+p[1]*self.scale))
+        self.points = nps.copy()
+        self.is_moving = True

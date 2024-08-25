@@ -12,3 +12,4 @@ class Rectangle(Polygon):
         
         self.points=[(x-width/2,y-height/2),(x+width/2,y-height/2),(x+width/2,y+height/2),(x-width/2,y+height/2)]
         super().__init__(self.points,color)
+    
